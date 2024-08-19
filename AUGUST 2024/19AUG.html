@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #map {
+        height: 600px;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Initialize the map and set its view
+      const map = L.map("map").setView([51.505, -0.09], 13);
+
+      // Add a tile layer to the map
+      const tileLayer = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      ).addTo(map);
+
+      // Add a marker with a popup
+      const marker = L.marker([51.5, -0.09]).addTo(map);
+      marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+      // Add a circle with a popup
+      const circle = L.circle([51.508, -0.11], {
+        color: "red",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 500,
+      }).addTo(map);
+      circle.bindPopup("I am a circle.");
+
+      // Add a polygon with a popup
+      const polygon = L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047],
+      ]).addTo(map);
+      polygon.bindPopup("I am a polygon.");
+
+      // Map click event
+      function onMapClick(e) {
+        L.popup()
+          .setLatLng(e.latlng)
+          .setContent("You clicked the map at " + e.latlng.toString())
+          .openOn(map);
+      }
+      map.on("click", onMapClick);
+
+      // Add multiple markers with popups
+      const markers = [
+        { lat: 51.51, lng: -0.1, popup: "Marker 1" },
+        { lat: 51.52, lng: -0.12, popup: "Marker 2" },
+        { lat: 51.53, lng: -0.09, popup: "Marker 3" },
+      ];
+
+      markers.forEach(function (location) {
+        const marker = L.marker([location.lat, location.lng]).addTo(map);
+        marker.bindPopup(location.popup);
+      });
+
+      // Add a custom icon marker
+      const customIcon = L.icon({
+        iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-green.png",
+        shadowUrl:
+          "https://leafletjs.com/examples/custom-icons/leaf-shadow.png",
+        iconSize: [38, 95],
+        shadowSize: [50, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-3, -76],
+      });
+
+      L.marker([51.5, -0.09], { icon: customIcon })
+        .addTo(map)
+        .bindPopup("I am a custom marker.");
+
+      // Add a polyline
+      const polyline = L.polyline(
+        [
+          [51.506, -0.08],
+          [51.502, -0.06],
+          [51.51, -0.047],
+        ],
+        {
+          color: "blue",
+          weight: 5,
+          opacity: 0.7,
+        }
+      ).addTo(map);
+
+      // Add a rectangle
+      const bounds = [
+        [51.49, -0.08],
+        [51.5, -0.06],
+      ];
+      L.rectangle(bounds, { color: "green", weight: 1 }).addTo(map);
+
+      // Add a GeoJSON layer
+      const geojsonFeature = {
+        type: "Feature",
+        properties: {
+          name: "Coors Field",
+          amenity: "Baseball Stadium",
+          popupContent: "This is where the Rockies play!",
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [-104.99404, 39.75621],
+        },
+      };
+
+      L.geoJSON(geojsonFeature, {
+        onEachFeature: function (feature, layer) {
+          if (feature.properties && feature.properties.popupContent) {
+            layer.bindPopup(feature.properties.popupContent);
+          }
+        },
+      }).addTo(map);
+
+      // Filter GeoJSON data
+      const someFeatures = [
+        {
+          type: "Feature",
+          properties: {
+            name: "Random Point 1",
+            show_on_map: true,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [-104.99, 39.74],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            name: "Random Point 2",
+            show_on_map: false,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [-104.98, 39.75],
+          },
+        },
+      ];
+
+      L.geoJSON(someFeatures, {
+        filter: function (feature) {
+          return feature.properties.show_on_map;
+        },
+      }).addTo(map);
+
+      // Add a layer control (switch between different layers)
+      const baseMaps = {
+        OSM: tileLayer,
+        Satellite: L.tileLayer(
+          "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+          {
+            maxZoom: 17,
+            attribution:
+              '&copy; <a href="https://www.opentopomap.org/copyright">OpenTopoMap</a>',
+          }
+        ),
+      };
+
+      const overlayMaps = {
+        Circle: circle,
+        Polygon: polygon,
+        Polyline: polyline,
+        Rectangle: L.rectangle(bounds),
+      };
+
+      L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+      // Zoom to fit all features
+      const group = new L.featureGroup([marker, circle, polygon]);
+      map.fitBounds(group.getBounds());
+
+      L.control.scale().addTo(map);
+
+      L.Control.Coordinates = L.Control.extend({
+        onAdd: function () {
+          const container = L.DomUtil.create("div");
+          container.style.background = "rgba(255, 255, 255, 0.8)";
+          container.style.padding = "5px";
+          container.innerHTML = "Lat: 51.5, Lng: -0.09";
+          return container;
+        },
+      });
+
+      L.control.coordinates = function (opts) {
+        return new L.Control.Coordinates(opts);
+      };
+
+      L.control.coordinates({ position: "bottomleft" }).addTo(map);
+
+      //  draggable marker
+      const draggableMarker = L.marker([51.495, -0.083], {
+        draggable: true,
+      }).addTo(map);
+
+      draggableMarker.on("dragend", function (event) {
+        const marker = event.target;
+        const position = marker.getLatLng();
+        marker
+          .setLatLng(position, {
+            draggable: true,
+          })
+          .bindPopup(position.toString())
+          .openPopup();
+      });
+
+      // circle marker
+      const circleMarker = L.circleMarker([51.51, -0.12], {
+        radius: 20,
+        color: "purple",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+      }).addTo(map);
+
+      // Custom function to calculate distance between two points
+      function calculateDistance(latlng1, latlng2) {
+        const R = 6371e3; // Radius of the Earth in meters
+        const φ1 = (latlng1.lat * Math.PI) / 180;
+        const φ2 = (latlng2.lat * Math.PI) / 180;
+        const Δφ = ((latlng2.lat - latlng1.lat) * Math.PI) / 180;
+        const Δλ = ((latlng2.lng - latlng1.lng) * Math.PI) / 180;
+
+        const a =
+          Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+          Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in meters
+      }
+
+      // Example usage of the distance calculation function
+      const latlng1 = L.latLng(51.505, -0.09);
+      const latlng2 = L.latLng(51.51, -0.1);
+      const distance = calculateDistance(latlng1, latlng2);
+      console.log("Distance between points: " + distance + " meters");
+    </script>
+  </body>
+</html>
