@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REGISTER</title>
+    <link
+      rel="shortcut icon"
+      href="./android-chrome-512x512.png"
+      type="image/x-icon"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./webtest.css" />
+  </head>
+  <body>
+    <div class="video-background">
+      <video autoplay muted loop>
+        <source
+          src="./Fast Driving At Night Free Stock Video.mp4"
+          type="video/mp4"
+        />
+        VIDEO NOT SUPPORT
+      </video>
+    </div>
+    <div class="content">
+      <div class="container">
+        <h1 class="text-white text-center mb-4"><b>VIKAS</b></h1>
+        <p class="text-white text-center mb-4">
+          TRAVEL ANYTIME. TRAVEL ANYWHERE
+        </p>
+        <div class="form-container">
+          <form id="registration-form">
+            <h2 class="text-center mb-4">Register</h2>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="mobile">Mobile Number:</label>
+              <input
+                type="tel"
+                id="mobile"
+                name="mobile"
+                class="form-control"
+                pattern="[0-9]{10}"
+                required
+              />
+              <small class="form-text text-muted"
+                >Enter 10-digit mobile number.</small
+              >
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- COPY -->
+    <footer class="footer">
+      <p>&copy; OJAS TESTING FOR VIKAS</p>
+    </footer>
+  </body>
+</html>
