@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  box-sizing: border-box;
+}
+#map {
+  height: 100vh;
+  width: 100%;
+}
+/* Styling the layer control box */
+.leaflet-control-layers {
+  background-color: black;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+}
+.leaflet-control-layers input[type="checkbox"] {
+  margin-right: 8px; /* Space between checkbox and label */
+  cursor: pointer;
+}
+/* POPUP STYLING */
+.leaflet-popup {
+  background: #f8f9fa; /* Background color */
+  border-radius: 10px; /* Rounded corners */
+  border: 2px solid blue; /* Border color */
+  padding: 10px; /* Padding inside the popup */
+  font-family: Arial, sans-serif; /* Font style */
+  font-size: 14px; /* Font size */
+}
+
+/* Style the popup content */
+.leaflet-popup-content {
+  margin: 0; /* Remove default margin */
+}
+
+/* Style the popup header (optional) */
+.leaflet-popup-title {
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+/* Style the close button */
+.leaflet-popup-close-button {
+  color: #007bff; /* Close button color */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold font */
+}
+/* Style the zoom control */
+.leaflet-control-zoom {
+  background-color: #f8f9fa; /* Background color */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.leaflet-control-zoom a {
+  color: #007bff; /* Button color */
+  font-size: 18px; /* Font size */
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #e9ecef; /* Button hover background color */
+  color: #0056b3; /* Button hover color */
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in {
+  border-bottom: 1px solid #007bff; /* Bottom border for zoom-in button */
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-out {
+  border-top: 1px solid #007bff; /* Top border for zoom-out button */
+}
